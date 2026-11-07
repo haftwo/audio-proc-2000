@@ -1,0 +1,18 @@
+services:
+  audioproc2000:
+    build: .
+    container_name: audioproc2000
+    restart: unless-stopped
+    ports:
+      - "8020:8020"
+    volumes:
+      - ./data:/data            # settings + last source survive restarts
+    tmpfs:
+      - /tmp/hls                # HLS segments live in RAM
+    devices:
+      - /dev/snd:/dev/snd       # local sound cards (remove if you only use HLS inputs)
+    group_add:
+      - audio
+    # environment:
+    #   AUTH_USER: joe          # optional basic auth on the control panel
+    #   AUTH_PASS: change-me    # (/hls/ output stays open for players)
